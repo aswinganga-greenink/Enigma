@@ -1,2 +1,2 @@
-# WHERE IS MY TOILET
-## Never forget the essentials
+# FIND MY TOILET
+## Making the essential easy to find
