@@ -4,8 +4,15 @@ from validation import OSMLocation, PlaceResponse, PlacesWithToiletsResponse
 import random
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
+
+
+
+
 from auth.routes import router as vendor_auth_router
 from auth.vendor_routes import router as vendor_router
+from comments.routes import router as comments_router
+
+
 
 
 
@@ -57,6 +64,7 @@ app.add_middleware(
 
 app.include_router(vendor_auth_router)
 app.include_router(vendor_router)
+app.include_router(comments_router)
 
 @app.get("/toilets", response_model=PlacesWithToiletsResponse)
 async def get_toilets():
