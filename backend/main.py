@@ -3,6 +3,8 @@ from ingest_osm import fetch_osm_map_data
 from validation import OSMLocation, PlaceResponse, PlacesWithToiletsResponse
 import random
 from contextlib import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
+
 
 KOZHIKODE_BBOX = (
     11.05,   # south latitude
@@ -31,6 +33,17 @@ async def lifespan(app: FastAPI):
     yield  # app starts serving requests here 
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5500",
+        "http://0.0.0.0:5500",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 
