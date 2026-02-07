@@ -1,5 +1,5 @@
 from typing import Dict, Optional, Literal, List
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 
@@ -81,3 +81,4 @@ class PlaceResponse(BaseModel):
 class PlacesWithToiletsResponse(BaseModel):
     count: int
     items: List[PlaceResponse]
+

@@ -4,6 +4,16 @@ from validation import OSMLocation, PlaceResponse, PlacesWithToiletsResponse
 import random
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
+from auth.routes import router as vendor_auth_router
+from auth.vendor_routes import router as vendor_router
+
+
+
+from db.database import engine, Base
+from db.model import Vendor
+from db.location_model import VendorLocation
+
+Base.metadata.create_all(bind=engine)
 
 
 KOZHIKODE_BBOX = (
@@ -45,7 +55,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+app.include_router(vendor_auth_router)
+app.include_router(vendor_router)
 
 @app.get("/toilets", response_model=PlacesWithToiletsResponse)
 async def get_toilets():

@@ -7,8 +7,8 @@ const KOZHIKODE_BOUNDS = [
 var map = L.map('map').setView([11.2588, 75.7804], 12);
 
 
-map.setMinZoom(10);
-map.setMaxZoom(18);
+map.setMinZoom(12); // change to set min zoom
+map.setMaxZoom(18); // change to set max zoom
   
 
 // 2. Add tile layer 
@@ -32,7 +32,7 @@ fetch("http://localhost:8000/toilets")
       const circle = L.circleMarker(
         [place.lat, place.lon],
         {
-          radius: 6,                     // small, clean
+          radius: 6,                     
           color: isFree ? "green" : "red",
           fillColor: isFree ? "green" : "red",
           fillOpacity: 0.8,
@@ -42,9 +42,10 @@ fetch("http://localhost:8000/toilets")
 
       circle.bindPopup(`
         <strong>${place.name ?? "Unnamed place"}</strong><br/>
-        Type: ${place.place_type}<br/>
-        Toilet: ${place.pricing}<br/>
-        Rating: ${place.rating}
+        <b>Type:</b> ${place.place_type}<br/>
+        <b>Toilet:</b> ${place.pricing}<br/>
+        <b>Accessible:</b> ${place.differently_abled_supported ? "Yes" : "No"}<br/>
+        <b>Rating:</b> ${place.rating} ⭐
       `);
 
       bounds.push([place.lat, place.lon]);
@@ -61,3 +62,68 @@ fetch("http://localhost:8000/toilets")
     console.error("Failed to load toilet data", err);
   });
 
+
+// Vendor pop up handler
+
+let addPopup;
+
+map.on("click", function (e) {
+  if (addPopup) {
+    map.closePopup(addPopup);
+  }
+
+  const { lat, lng } = e.latlng;
+
+  const formHtml = `
+    <div>
+      <strong>Add Toilet Location</strong><br/><br/>
+      <input id="name" placeholder="Place name"/><br/><br/>
+
+      <select id="pricing">
+        <option value="free">Free</option>
+        <option value="paid">Paid</option>
+      </select><br/><br/>
+
+      <label>
+        Accessible
+        <input type="checkbox" id="accessible"/>
+      </label><br/><br/>
+
+      <button onclick="submitLocation(${lat}, ${lng})">
+        Add
+      </button>
+    </div>
+  `;
+
+  addPopup = L.popup()
+    .setLatLng([lat, lng])
+    .setContent(formHtml)
+    .openOn(map);
+});
+
+
+function submitLocation(lat, lon) {
+    const token = localStorage.getItem("vendor_token");
+  
+    fetch("http://127.0.0.1:8000/vendor/locations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        name: document.getElementById("name").value,
+        lat: lat,
+        lon: lon,
+        pricing: document.getElementById("pricing").value,
+        differently_abled_supported:
+          document.getElementById("accessible").checked
+      })
+    })
+    .then(res => res.json())
+    .then(() => {
+      map.closePopup();
+      alert("Location added");
+    });
+  }
+  
