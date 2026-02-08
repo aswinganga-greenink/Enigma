@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="vendor-page">
+
+    <div class="auth-card">
+        <h3>Vendor Access</h3>
+        <p id="auth-message" style="color: #666; font-size: 14px;"></p>
+
+        <div class="form-group">
+            <input id="email" type="email" placeholder="Email" required />
+        </div>
+        <div class="form-group">
+            <input id="password" type="password" placeholder="Password" required />
+        </div>
+        <div class="form-group">
+            <input id="business" type="text" placeholder="Business Name (Sign Up only)" />
+        </div>
+
+        <button class="btn btn-primary" onclick="login()">Login</button>
+        <button class="btn" onclick="signup()">Sign Up as New Vendor</button>
+
+        <a href="index.html" class="back-link">← Back to Map</a>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

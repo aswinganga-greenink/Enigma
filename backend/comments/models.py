@@ -13,6 +13,7 @@ class Comment(Base):
 
     location_id: Mapped[str] = mapped_column(String, index=True)
     content: Mapped[str] = mapped_column(Text)
+    rating: Mapped[int] = mapped_column(default=0)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow
     )

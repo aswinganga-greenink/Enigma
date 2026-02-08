@@ -16,7 +16,8 @@ def add_comment(
 ):
     comment = Comment(
         location_id=payload.location_id,
-        content=payload.content
+        content=payload.content,
+        rating=payload.rating
     )
 
     db.add(comment)
