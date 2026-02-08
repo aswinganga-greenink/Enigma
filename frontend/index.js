@@ -377,15 +377,21 @@ function signup() {
       business_name: business
     })
   })
-    .then(res => res.json())
-    .then(data => {
-      if (data.message) {
-        if (messageEl) messageEl.innerText = data.message;
-        alert(data.message);
-      } else {
-        alert("Signup successful. Please login.");
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) {
+        const errorMsg = data.detail || "Signup failed";
+        if (messageEl) messageEl.innerText = errorMsg;
+        alert(errorMsg);
+        throw new Error(errorMsg);
       }
-    });
+      return data;
+    })
+    .then(data => {
+      if (messageEl) messageEl.innerText = data.message;
+      alert(data.message || "Signup successful. Please login.");
+    })
+    .catch(err => console.error(err));
 }
 
 
@@ -402,17 +408,24 @@ function login() {
       password: password
     })
   })
-    .then(res => res.json())
+    .then(async res => {
+      const data = await res.json();
+      if (!res.ok) {
+        const errorMsg = data.detail || "Login failed";
+        if (messageEl) messageEl.innerText = errorMsg;
+        alert(errorMsg);
+        throw new Error(errorMsg);
+      }
+      return data;
+    })
     .then(data => {
       if (data.access_token) {
         localStorage.setItem("vendor_token", data.access_token);
         if (messageEl) messageEl.innerText = "Logged in successfully!";
         setTimeout(() => window.location.href = "index.html", 1000);
-      } else {
-        if (messageEl) messageEl.innerText = "Login failed. Check credentials.";
-        else alert("Login failed");
       }
-    });
+    })
+    .catch(err => console.error(err));
 }
 
 

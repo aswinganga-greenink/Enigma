@@ -15,14 +15,30 @@
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-content">
-            <h1 class="bounce">Find My Toilet</h1>
-            <p>Locating closest options...</p>
+            <div class="google-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <h1>Find My Toilet</h1>
+            <p>Scanning nearby...</p>
         </div>
     </div>
 
-    <div class="floating-container">
-        <a href="vendor.html" class="btn btn-primary">Vendor Access</a>
-    </div>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo-placeholder">Logo</div>
+        </div>
+        <div class="nav-center">
+            <a href="#" class="nav-link">Maps</a>
+            <a href="#" class="nav-link">About Us</a>
+            <a href="#" class="nav-link">About Kozhikode</a>
+        </div>
+        <div class="nav-right">
+            <a href="vendor.html" class="btn btn-primary nav-btn">Vendor Registration</a>
+        </div>
+    </nav>
 
     <button id="locate-btn" class="locate-btn" onclick="locateUser()" title="Find nearest toilet">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
